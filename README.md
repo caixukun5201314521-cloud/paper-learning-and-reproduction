@@ -50,7 +50,7 @@ python code/smoke_test.py   # 7 项工具链自检,全过即就绪
 - [x] Foursquare 数据获取与格式体检(时间跨度 2011-12 ~ 2012-04,与论文表 2 一致)
 - [x] Wikipedia 数据源确认(SNAP enwiki-20080103.main.bz2)
 - [x] Airbnb 替代数据源确认(Inside Airbnb / Kaggle,英文城市)
-- [x] 五指标在 Foursquare 上的计算(先验,见 [results/Foursquare先验指标结果.md](results/Foursquare先验指标结果.md);周期性最优粒度=周、语言 N/A 与论文定性一致)
+- [x] 五指标在 Foursquare 上的计算(先验,见 [results/Foursquare先验指标结果.md](results/Foursquare先验指标结果.md);重要发现:138 天中仅 56 天有采集,脉冲式采集污染数据集级周期性,详见报告)
 - [ ] 朴素模型 LR 后验实验与 r_intra / r_inter 验证
 
 ## 分支约定
