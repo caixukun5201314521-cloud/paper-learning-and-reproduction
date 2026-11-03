@@ -1,59 +1,66 @@
-# 论文学习与代码复现
+# Paper Learning & Code Reproduction
 
-按论文建分支的学习仓库。每个分支对应一篇论文：论文原文、中文翻译、复现代码、数据获取指南。
+A paper-by-branch learning repository. Each branch corresponds to one paper and contains: the original PDF, a Chinese full translation, reproduction code, data-acquisition guides, and running results.
 
-**当前分支:`unifying-data-effectiveness-assessment`**
+**Current branch: `unifying-data-effectiveness-assessment`**
 
-## 本分支对应的论文
+## Paper
 
 > **Unifying Data Effectiveness Assessment in User Churn Detection: An Indicator-Assisted Framework**
 > Mengying Zhou, Qianyu He, Bruno Abrahao, Xin Wang, Yang Chen
-> *Tsinghua Science and Technology*, Vol. 31, No. 4, pp. 2237–2250, 2026
-> DOI: 10.26599/TST.2024.9010230
+> *Tsinghua Science and Technology*, Vol. 31, No. 4, pp. 2237–2250, 2026. DOI: 10.26599/TST.2024.9010230
 
-论文提出指标辅助框架 **INFO**:用五个可解释的先验指标(活动周期性、活动多样性、语言、图结构、交互情感)在大规模实验之前评估各数据类别对流失检测任务的有效性。
+INFO (INdicator-assisted FramewOrk) uses five interpretable **prior** indicators — activity periodicity, activity diversity, linguistic, graph structure, and interaction sentiment — to assess how effective each data category is for user-churn detection *before* running large-scale model trials.
 
-## 目录结构
+## Repository layout
 
 ```
-paper/        论文原文 PDF(开放获取,CC BY 4.0,转载请注明出处与 DOI)
-docs/         中文全文翻译(公式按上下文重构,以原刊为准)
-code/         复现代码(smoke_test.py 工具链自检;foursquare_indicators.py 先验指标计算)
-results/      运行结果(数值 JSON + 对照论文表 3 的结果报告)
-data/         数据获取指南 + Foursquare 样例数据(各文件前 1000 行)
-requirements.txt  Python 环境依赖清单
+paper/        Original paper PDF (open access, CC BY 4.0; cite DOI when redistributing)
+docs/         Full Chinese translation (formulas reconstructed from garbled PDF text)
+code/         smoke_test.py (toolchain self-check) · foursquare_indicators.py (prior indicators)
+              foursquare_profile.py (full data audit)
+results/      Indicator results vs. paper Table 3 · complete daily series · data audit
+              data_cleaning_reflections.md (lessons learned, English)
+data/         Acquisition guides for all five datasets + 1000-row Foursquare samples
+requirements.txt  Python dependencies
 ```
 
-## 环境搭建
+## Environment setup
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-python code/smoke_test.py   # 7 项工具链自检,全过即就绪
+python code/smoke_test.py   # 7-part toolchain self-check
 ```
 
-注意:NLTK 的 punkt 分词器需额外下载;若 `nltk.download` 被 SSRF 防护误拦(代理 fake-IP),用 curl 手动下载
-`punkt.zip` / `punkt_tab.zip` 解压到 `~/nltk_data/tokenizers/`。
+Note: NLTK's punkt tokenizer needs a one-time download. If `nltk.download` is blocked by its
+SSRF guard (proxy fake-IP), fetch `punkt.zip` / `punkt_tab.zip` via curl and unzip into
+`~/nltk_data/tokenizers/`.
 
-## 数据说明(重要)
+## Data note (important)
 
-**原始数据不入库**。原因:① 部分文件超过 GitHub 单文件 100MB 硬限制(如 Foursquare 的 socialgraph.dat 为 827MB);
-② Foursquare(UMN Sarwat)数据集当年应平台方要求下架,再分发存在合规风险。本地原始数据存放于
-`~/Downloads/201309_foursquare_dataset_umn/`,获取方式见 [data/README.md](data/README.md),
-`data/foursquare_samples/` 内附各文件前 1000 行样例供跑通代码用。
+**Raw datasets are NOT committed.** Reasons: (1) `socialgraph.dat` alone is 827 MB, far above
+GitHub's 100 MB per-file limit; (2) the Foursquare (UMN/Sarwat) dataset was taken down at the
+platform's request in 2013, so redistributing it is legally risky. Local raw copy lives in
+`~/Downloads/201309_foursquare_dataset_umn/`; acquisition channels for all five datasets are
+documented in [data/README.md](data/README.md); 1000-row samples are included for smoke-testing.
 
-## 复现进度
+## Progress
 
-- [x] 论文精读 + 中文全文翻译
-- [x] 五指标工具链环境搭建(pandas / scipy / networkx / sklearn / vaderSentiment / nltk)
-- [x] Foursquare 数据获取与格式体检(时间跨度 2011-12 ~ 2012-04,与论文表 2 一致)
-- [x] Wikipedia 数据源确认(SNAP enwiki-20080103.main.bz2)
-- [x] Airbnb 替代数据源确认(Inside Airbnb / Kaggle,英文城市)
-- [x] 五指标在 Foursquare 上的计算(先验,见 [results/Foursquare先验指标结果.md](results/Foursquare先验指标结果.md);重要发现:138 天中仅 56 天有采集,脉冲式采集污染数据集级周期性,详见报告)
-- [ ] 朴素模型 LR 后验实验与 r_intra / r_inter 验证
+- [x] Close reading + full Chinese translation of the paper
+- [x] Indicator toolchain setup (pandas / scipy / networkx / sklearn / vaderSentiment / nltk)
+- [x] Foursquare data acquisition & format audit (span 2011-12 ~ 2012-04, matches paper's "5 months")
+- [x] Wikipedia & Airbnb public data sources confirmed (SNAP main.bz2; Inside Airbnb / Kaggle)
+- [x] **Prior indicators computed on Foursquare** — see [results/Foursquare先验指标结果.md](results/Foursquare先验指标结果.md)
+      Key finding: only 56 of 138 days were ever collected (pulsed crawling), which contaminates
+      dataset-level periodicity; after decontamination the best granularity flips from week to day.
+- [x] Full data audit + active-user subsample verification (users with ≥6 check-ins: 28,601 /
+      250,270 — matches paper's 27,304 / 184,723 almost exactly)
+- [x] [Data-cleaning reflections (English)](results/data_cleaning_reflections.md)
+- [ ] Naive-LR posterior experiments; r_intra / r_inter validation
 
-## 分支约定
+## Branching convention
 
-新增论文时,从默认分支拉出新分支,以论文标题的英文短横线命名,例如
-`unifying-data-effectiveness-assessment`。
+One paper per branch, named by the paper title in lowercase-hyphenated form
+(e.g., `unifying-data-effectiveness-assessment`), branched from the default branch.
