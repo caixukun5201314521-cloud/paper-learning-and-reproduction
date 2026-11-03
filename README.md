@@ -18,7 +18,8 @@
 ```
 paper/        论文原文 PDF(开放获取,CC BY 4.0,转载请注明出处与 DOI)
 docs/         中文全文翻译(公式按上下文重构,以原刊为准)
-code/         复现代码(smoke_test.py = 五指标工具链冒烟测试)
+code/         复现代码(smoke_test.py 工具链自检;foursquare_indicators.py 先验指标计算)
+results/      运行结果(数值 JSON + 对照论文表 3 的结果报告)
 data/         数据获取指南 + Foursquare 样例数据(各文件前 1000 行)
 requirements.txt  Python 环境依赖清单
 ```
@@ -49,7 +50,7 @@ python code/smoke_test.py   # 7 项工具链自检,全过即就绪
 - [x] Foursquare 数据获取与格式体检(时间跨度 2011-12 ~ 2012-04,与论文表 2 一致)
 - [x] Wikipedia 数据源确认(SNAP enwiki-20080103.main.bz2)
 - [x] Airbnb 替代数据源确认(Inside Airbnb / Kaggle,英文城市)
-- [ ] 五指标在 Foursquare 上的计算
+- [x] 五指标在 Foursquare 上的计算(先验,见 [results/Foursquare先验指标结果.md](results/Foursquare先验指标结果.md);周期性最优粒度=周、语言 N/A 与论文定性一致)
 - [ ] 朴素模型 LR 后验实验与 r_intra / r_inter 验证
 
 ## 分支约定

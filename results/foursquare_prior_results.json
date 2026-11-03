@@ -1,0 +1,38 @@
+{
+  "dataset": "Foursquare (UMN Sarwat 201309)",
+  "framework": "INFO 先验指标(论文式 1-7)",
+  "activity_periodicity": {
+    "series_days": 138,
+    "phi_day": 0.2853,
+    "phi_week": 0.2895,
+    "phi_month": 0.1866,
+    "phi_final": 0.2895,
+    "best_granularity": "week"
+  },
+  "activity_diversity": {
+    "n_users_used": 93418,
+    "gs_mean": 0.0287,
+    "gs_std": 0.0557,
+    "group0_mean": 0.0125,
+    "group1_mean": 0.1429,
+    "wasserstein_W": 0.1304
+  },
+  "graph_structure": {
+    "n_nodes_sampled": 30000,
+    "n_nodes_in_subgraph": 2528,
+    "n_edges_in_subgraph": 2337,
+    "clustering_C": 0.0399
+  },
+  "interaction_sentiment": {
+    "rating_dist": {
+      "1": 0,
+      "2": 1016504,
+      "3": 246642,
+      "4": 629216,
+      "5": 917218
+    },
+    "n_ratings": 2809580,
+    "biased_entropy_E": 0.5172
+  },
+  "linguistic": "N/A(数据集无文本,与论文表 3 一致)"
+}
